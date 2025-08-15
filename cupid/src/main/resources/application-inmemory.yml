@@ -1,0 +1,13 @@
+# In-Memory Cache Configuration Profile
+# Activate with: --spring.profiles.active=inmemory
+
+spring:
+  cache:
+    type: simple
+    cache-names: properties,hotels,reviews,translations
+
+management:
+  health:
+    redis:
+      enabled: false
+

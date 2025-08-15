@@ -1,0 +1,60 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/cupid_db
+    username: postgres
+    password: root123
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+        use_sql_comments: true
+        # Performance optimizations
+        jdbc.batch_size: 20
+        order_inserts: true
+        order_updates: true
+        batch_versioned_data: true
+    show-sql: false  # Disable SQL logging in production
+    log-sql-parameters: false  # Disable parameter logging in production
+  # Cache configuration (defaults to in-memory)
+  cache:
+    type: simple
+    cache-names: properties,hotels,reviews,translations
+
+# Actuator configuration for monitoring
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,caches
+  endpoint:
+    health:
+      show-details: always
+
+logging:
+  level:
+    com.example.cupid: INFO
+    org.springframework.web: INFO
+    org.hibernate.SQL: WARN  # Only log SQL warnings in production
+    org.hibernate.type.descriptor.sql.BasicBinder: WARN
+    org.springframework.transaction: WARN
+    org.springframework.orm.jpa: WARN
+    org.springframework.cache: DEBUG  # Enable cache logging for debugging
+
+flyway:
+  enabled: true
+  locations: classpath:db/migration
+  baseline-on-migrate: true
+
+cupid:
+  api:
+    base-url: https://content-api.cupid.travel/v3.0
+    api-key: i2O4p6A8s0D3f5G7h9J1k3L5m7N9b
+    timeout-ms: 10000
+    max-retries: 3
+
+server:
+  port: 8080
